@@ -23,7 +23,8 @@ static void mnwbf_line(int index, char *contents, int cursor, void *data) {
 
   if (cursor >= 0) {
     int length = strlen(contents);
-    for (int i = 1; i < length; i++) {
+    int i = 1;
+    for (i = 1; i < length; i++) {
       if (isspace(contents[cursor + i]) && !isspace(contents[cursor + i + 1]) &&
           contents[cursor + i + 1] != '\0') {
         mwcrsr((text)data, index + 1, cursor + i + 2);
