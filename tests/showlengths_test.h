@@ -148,4 +148,53 @@ TEST(showlengths_test, test3) {
         FAIL();
     }
 }
+TEST(showlengths_test, testEmptyFile) {
+    /*
+        Open output file
+    */
+    FILE *outputFile;
+    TRAVIS ? outputFile = fopen("tests/output/output2(empty).txt", "wb") : outputFile = fopen("../../TestingLabs2/tests/output/output2(empty).txt", "wb");
+    if (outputFile == NULL) {
+        printf("Cannot open file for output");
+        FAIL();
+    }
+    int oldstdOut = changeStream(outputFile);
+
+    /*
+        Load input data
+    */
+
+    text txt = create_text();
+    char inFile[MAXLINE];
+    TRAVIS ? strncpy(inFile, "tests/input/input2(empty).txt", MAXLINE) : strncpy(inFile, "../../TestingLabs2/tests/input/input2(empty).txt", MAXLINE);
+    load(txt, inFile);
+
+    /*
+        Run test function
+    */
+
+   showlengths(txt);
+
+    /*
+        Close output file
+    */
+
+    returnStream(outputFile, oldstdOut);
+
+    /*
+        Execute test
+    */
+
+    FILE *expectedData;
+    TRAVIS ? expectedData = fopen("tests/expected/expected2(empty).txt", "r") : expectedData = fopen("../../TestingLabs2/tests/expected/expected2(empty).txt", "r");
+    FILE *outputData;
+    TRAVIS ? outputData = fopen("tests/output/output2(empty).txt", "r") : outputData = fopen("../../TestingLabs2/tests/output/output2(empty).txt", "r");
+
+    if (executeTest(expectedData, outputData) == 1) {
+        SUCCEED();
+    } else {
+        FAIL();
+    }
+}
+
 #endif // SHOWLENGTHS_H
